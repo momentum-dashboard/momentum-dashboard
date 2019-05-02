@@ -13,7 +13,8 @@ let userSchema = new mongoose.Schema({
   todos: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Todo'
-  }]
+  }],
+  singleTodo: String,
 })
 
 let User = mongoose.model('User', userSchema)

@@ -9,7 +9,8 @@ class ControllerUser {
     let newUser = {
       name, email,
       password: hash(password),
-      todos: []
+      todos: [],
+      singleTodo: ''
     }
     User.create(newUser)
       .then(data => {

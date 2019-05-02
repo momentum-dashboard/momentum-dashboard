@@ -1,0 +1,62 @@
+const { Todo } = require('../models')
+const { User } = require('../models')
+
+class ControllerTodo {
+  static create(req, res) {
+    let input = req.body
+    let newTodo = {
+      title: input.title,
+      userId: req.user.id,
+      checked: false
+    }
+    Todo.create(newTodo)
+      .then(data => {
+        return User.findOneAndUpdate({ _id: req.user._id }, { $push: { todos: data }}, { new: true })
+      })
+      .then(user => {
+        res.status(201).json(user)
+      })
+      .catch(err => res.status(500).json({ message: err.message }))
+  }
+  static findAll(req, res) {
+    Todo.find()
+      .populate('userId', 'name')
+      .then(data => {
+        res.status(200).json(data)
+      })
+      .catch(err => res.status(500).json({message: err.message}))
+  }
+  static findOne(req, res) {
+    Todo.findOne({_id: req.params.id})
+      .populate('userId', 'name')
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(err => {res.status(500).json({message: err.message})})
+  }
+  static update(req, res) {
+    req.body.checked = (req.body.checked === 'true' || req.body.checked === true) ? true : false
+    Todo.findOneAndUpdate({_id: req.params.id}, req.body, { new: true })
+    .then(user => {
+      res.status(200).json(user)
+    })
+    .catch(err => res.status(500).json({message: err.message}))
+  }
+  static delete(req, res) {
+    Todo.findOneAndDelete({_id: req.params.id})
+      .then(todo => {
+        return User.findOneAndUpdate({ _id: req.user._id }, { $pull : { todos: { _id: todo._id }}}, { new: true })
+      })
+      .then(user => {
+        const response = {
+          message: 'Successfully deleted todo.',
+          id: req.params.id,
+          user
+        }
+        res.status(200).json(response)
+      })
+      .catch(err => {res.status(500).json({message: err.message})})
+  }
+}
+
+module.exports = ControllerTodo

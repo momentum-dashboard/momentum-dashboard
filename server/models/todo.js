@@ -5,10 +5,6 @@ let todoSchema = new mongoose.Schema({
     type: String,
     required: [true, `Title required.`],
   },
-  description: {
-    type: String,
-    required: [true, 'Password is required.'],
-  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'

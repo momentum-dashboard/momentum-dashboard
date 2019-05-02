@@ -5,9 +5,11 @@ const { sign } = require('../helpers/jwt')
 
 class ControllerUser {
   static create(req, res) {
-    let input = req.body
+    let { name, email, password } = req.body
     let newUser = {
-      // ========================================================
+      name, email,
+      password: hash(password),
+      todos: []
     }
     User.create(newUser)
       .then(data => {
@@ -17,6 +19,7 @@ class ControllerUser {
   }
   static findAll(req, res) {
     User.find()
+      .populate('todos')
       .then(data => {
         res.status(200).json(data)
       })
@@ -58,11 +61,17 @@ class ControllerUser {
             res.status(401).json({ message: 'user tidak ada/ password salah' })
           } else {
             let obj = {
-              email,
-              password
+              name: user.name,
+              email: user.email,
+              id: user._id
             }
             let access_token = sign(obj)
-            res.status(201).json({ access_token: access_token })
+            res.status(201).json({ 
+              access_token,
+              name: user.name,
+              email: user.email,
+              id: user._id
+             })
           }
         }
       })

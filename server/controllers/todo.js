@@ -43,15 +43,16 @@ class ControllerTodo {
     .catch(err => res.status(500).json({message: err.message}))
   }
   static delete(req, res) {
-    Todo.findOneAndDelete({_id: req.params.id})
-      .then(todo => {
-        return User.findOneAndUpdate({ _id: req.user._id }, { $pull : { todos: { _id: todo._id }}}, { new: true })
-      })
+    User.findOneAndUpdate({ _id: req.user._id }, { $pull : { todos: req.params.id}} ,{ new: true })
       .then(user => {
+        // console.log({user})
+        return Todo.findOneAndDelete({_id: req.params.id})
+      })
+      .then(todo => {
+        // console.log({reqUserId: req.user._id, todoId: todo._id})
         const response = {
           message: 'Successfully deleted todo.',
           id: req.params.id,
-          user
         }
         res.status(200).json(response)
       })

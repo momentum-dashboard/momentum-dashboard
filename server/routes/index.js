@@ -5,6 +5,7 @@ const { authenticate, authorize } = require('../middlewares/auth')
 route.get('/', (req, res) => {res.status(200).json({message: 'Home'})})
 route.post('/register', ControllerUser.create)
 route.post('/login', ControllerUser.login)
+route.post('/login/google', ControllerUser.loginGoogle)
 
 route.get('/users', ControllerUser.findAll)
 route.get('/users/:id', ControllerUser.findOne)

@@ -4,50 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link  href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>Momentum Dashboard</title>
     <style>
     body{
-        background-image: url("https://source.unsplash.com/1600x900/?nature")
+        background-image: url("https://source.unsplash.com/1366x663/?nature");
+        background-size: cover;
+        color: white
     }
-    #iconBackground{
-        float: right;
-        background-color:white;
-        opacity: 0.6;
-        width: 100px;
-        height: 160px;
-        padding-right: 40px
-    }
-
-    #icon{
-        float: right;
-    }
-
-    p {
-        line-height: 1px;   /* within paragraph */
-        margin-bottom: 1px; /* between paragraphs */
-        }
     </style>
 </head>
+
 <body>
-        <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_blank">
-        <input  type="hidden" value="example.com">
-        <input autocomplete="on" class="form-control search" name="q" required="required"  type="text">
-        <button class="button" type="submit">Search</button>
+    <div id="username-container" class="container center" style="margin-top:250px">
+        <form id="username-form" action="">
+            <h3>Hello, what's your name?</h3>
+            <div class="container">
+            <div class="container">
+                <input id="username" style="text-align:center; font-size: 30px;" type="text" data-test="focus-input">
+                <input type="submit" style="visibility: hidden;">
+            </div>
+            </div>
         </form>
-        <div id="iconBackground">
-                <div id="icon">
-                        <img src="./cloud.png" height="80px">
-                        <p id="temperature"></p>
-                        <p id="location"></p>
-                </div>
+    </div>
+
+    <div id="email-container" class="container center">
+        <form id="email-form" action="">
+            <div id="email-text"></div>
+            <div class="container">
+            <div class="container">
+                <input id="email" style="text-align:center; font-size: 30px;" type="text" data-test="focus-input">
+                <input type="submit" style="visibility: hidden;">
+            </div>
+            </div>
+        </form>
+    </div>
+
+    <div id="password-container" class="container center">
+        <form id="password-form" action="">
+        <div id="password-text"></div>
+        <div class="container">
+            <div class="container">
+            <input id="password" style="text-align:center; font-size: 30px;" type="password" data-test="focus-input">
+            <input type="submit" style="visibility: hidden;">
+            </div>
         </div>
+        </form>
+    </div>
+            
+
+    <div id="main" class="center" style="margin-top:-240px">
+
+        <div class="row" >
+            <div class="col s2" >
+                <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_blank">
+                    <input  type="hidden" value="example.com">
+                    <input autocomplete="off" class="form-control search" name="q" required="required"  type="text" placeholder="search">
+                    <input type="submit" style="visibility: hidden;">
+                </form>
+            </div>    
+
+            <div class="col s8" >
+                    
+            </div>
+            
+            <div class="col s2" style="text-align: center">
+                <div id="icon"></div>
+                <div id="temperature" ></div>
+                <div id="location"></div>
+            </div>
+
         
+        </div>
+        <div class="container center" style="margin-top:-250px">
+
+                <div id="clock" class="container" style="font-size:140px; margin-top: -50px; margin-bottom: -150px"></div>
+            
+                <div id="greeting" class="container"></div>
+                <div id="todo" class="container">
+                    <form id="todo-form" action="">
+                    <h4 style="font-size:30px">What is your main focus for today?</h4>
+                    <input id="todo-name" style="text-align:center; font-size: 30px;" type="text" data-test="focus-input">
+                    <input type="submit" style="visibility: hidden;">
+                    </form>
+                    <div>
+                    <div id="submitted-todo">
+                        
+                    </div>
+                    <div id="todo-option">
+                        <div>
+                            <a href="#"><h10 id="done">Done</h10></a>
+                            <a href="#"><h10 id="undone">Undone</h10></a>
+                        </div>
+                        <div>
+                            <a href="#"><h10 id="delete">Delete</h10></a>
+                            <h6 id="gj">Good Job!</h6>
+                            <a href="#"><h10 id="add">Add More Task</h10></a>
+                        </div>
+                    </div>
+                </div>
+            
+                <div id="quote" class="container"></div>
+            
+                <div id="author" class="container"></div>
+        </div>
         <script
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous"></script>
         
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
         <script src="./javascript/index.js"></script>
     
 </body>

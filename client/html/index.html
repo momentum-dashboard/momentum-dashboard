@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <style>
+    body{
+        background-image: url("https://source.unsplash.com/1600x900/?nature")
+    }
+    #iconBackground{
+        float: right;
+        background-color:white;
+        opacity: 0.6;
+        width: 100px;
+        height: 160px;
+        padding-right: 40px
+    }
+
+    #icon{
+        float: right;
+    }
+
+    p {
+        line-height: 1px;   /* within paragraph */
+        margin-bottom: 1px; /* between paragraphs */
+        }
+    </style>
+</head>
+<body>
+        <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_blank">
+        <input  type="hidden" value="example.com">
+        <input autocomplete="on" class="form-control search" name="q" required="required"  type="text">
+        <button class="button" type="submit">Search</button>
+        </form>
+        <div id="iconBackground">
+                <div id="icon">
+                        <img src="./cloud.png" height="80px">
+                        <p id="temperature"></p>
+                        <p id="location"></p>
+                </div>
+        </div>
+        
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+        
+        <script src="./javascript/index.js"></script>
+    
+</body>
+</html>

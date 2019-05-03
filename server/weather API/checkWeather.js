@@ -1,4 +1,5 @@
 require('dotenv').config({ path: '../.env' })
+const Navigator = require('navigator')
 var NodeGeocoder = require('node-geocoder');
 const axios = require('axios')
 let ax = axios.create({
@@ -13,6 +14,24 @@ let unit = '?units=si'
 // geocoder.geocode('paris, france', function (err, res) {
 //   console.log(res);
 // });
+
+// geocoder.reverse({lat:-6.2087634, lon:106.84559899999999}, function(err, res) {
+//   console.log(res);
+// });
+// function showPosition(position){
+//   console.log(position.coords.latitude,position.coords.longitude)
+// }
+// function getLocation(){
+//   if(Navigator.geolocation){
+//     Navigator.geolocation.getCurrentPosition(showPosition)
+//     }else{
+//       console.log('geolocation is not supported by this browser');
+//     }
+//   }
+
+
+
+// getLocation()
 
 function CheckWeather(city, country, cb) {
   geocoder.geocode(`${city}, ${country}`)
@@ -39,10 +58,13 @@ function CheckWeather(city, country, cb) {
       let latLong = `${temp.latitude},${temp.longitude}`
       ax.get(`/${latLong}${unit}`)
         .then(({ data }) => {
+          console.log(data)
           let obj = {
             location: `${city}, ${country}`,
             timezone: `${data.timezone}`,
-            summary: `${data.daily.summary} ${data.hourly.summary}`
+            summary: `${data.hourly.summary}`,
+            temperature: `${Math.floor(data.currently.temperature) } °C`,
+            icon: `${data.hourly.icon}`
           }
           cb(obj)
         })

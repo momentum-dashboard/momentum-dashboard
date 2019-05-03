@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id"
+    content="1190962083-7s7abisjjjajqrd0189ncipm1g2q4gjj.apps.googleusercontent.com">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <title>Momentum Dashboard</title>
+  <style>
+    body {
+      background-image: url("https://source.unsplash.com/1366x768/?nature");
+      background-size: cover;
+      color: white
+    }
+  </style>
+</head>
+
+<body>
+  <div id="username-container" class="container center" > <!-- style="display: flex; align-items: center; justify-content: center" style="margin-top:250px; " -->
+    <form id="username-form" action="">
+      <h3>Hello, what's your name?</h3>
+      <div class="container">
+        <div class="container" style="background-color: rgba(50, 50, 50, 0.9)">
+          <input id="username" style="text-align:center; font-size: 30px;" type="text" data-test="focus-input">
+          <input type="submit" style="visibility: hidden;">
+        </div>
+      </div>
+      <div style="display: flex; justify-content: center">
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+        <a href="#" onclick="signOut();">Sign out</a>
+      </div>
+    </form>
+  </div>
+
+  <div id="email-container" class="container center">
+    <form id="email-form" action="">
+      <div id="email-text"></div>
+      <div class="container">
+        <div class="container">
+          <input id="email" style="text-align:center; font-size: 30px;" type="text" data-test="focus-input">
+          <input type="submit" style="visibility: hidden;">
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="password-container" class="container center" >
+    <form id="password-form" action="">
+      <div id="password-text"></div>
+      <div class="container">
+        <div class="container">
+          <input id="password" style="text-align:center; font-size: 30px;" type="password" data-test="focus-input">
+          <input type="submit" style="visibility: hidden;">
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+  <div id="main" class="center" style="margin-top:0px">
+
+    <div class="row">
+      <div id="search" class="col s2">
+        <form action="https://www.google.com/search" class="searchform" method="get" name="searchform" target="_blank">
+          <input type="hidden" value="example.com">
+          <input autocomplete="off" class="form-control search" name="q" required="required" type="text"
+            placeholder="search">
+          <input type="submit" style="visibility: hidden;">
+        </form>
+      </div>
+
+      <div class="col s8">
+
+      </div>
+
+      <div id="weather" class="col s2" style="text-align: center">
+        <div id="icon"></div>
+        <div id="temperature"></div>
+        <div id="location"></div>
+      </div>
+
+
+    </div>
+    <div class="container center" style="margin: auto">
+
+      <div id="clock" class="container" style="font-size:140px; margin-top: -50px; margin-bottom: -150px"></div>
+
+      <!-- <div id="greeting" class="container"></div> -->
+      <h3 id='greeting'></h3>
+      <div id="todo" class="container">
+        <form id="todo-form" action="">
+          <h4 style="font-size:30px">What is your main focus for today?</h4>
+          <input id="todo-name" style="text-align:center; font-size: 30px;" type="text" data-test="focus-input">
+          <input type="submit" style="visibility: hidden;">
+        </form>
+            <a href="#" onclick="signOut();">Sign out</a>
+        <div>
+          <div id="submitted-todo">
+
+          </div>
+          <div id="todo-option">
+            <div>
+              <a href="#">
+                <h10 id="done">Done</h10>
+              </a>
+              <a href="#">
+                <h10 id="undone">Undone</h10>
+              </a>
+            </div>
+            <div>
+              <a href="#">
+                <h10 id="delete">Delete</h10>
+              </a>
+              <h6 id="gj">Good Job!</h6>
+              <a href="#">
+                <h10 id="add">Add More Task</h10>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <p id="quote" class="container"></p>
+
+        <p id="author" class="container"></p>
+      </div>
+
+      <script src="https://apis.google.com/js/platform.js" async defer></script>
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+      <script src="./javascript/index.js"></script>
+
+</body>
+
+</html>

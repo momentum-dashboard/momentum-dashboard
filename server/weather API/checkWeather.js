@@ -42,7 +42,9 @@ function CheckWeather(city, country, cb) {
           let obj = {
             location: `${city}, ${country}`,
             timezone: `${data.timezone}`,
-            summary: `${data.daily.summary} ${data.hourly.summary}`
+            summary: `${data.daily.summary} ${data.hourly.summary}`,
+            icon: `${data.daily.icon}`,
+            temperature: `${data.currently.temperature} °C`
           }
           cb(obj)
         })

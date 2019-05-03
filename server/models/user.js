@@ -6,15 +6,20 @@ let userSchema = new mongoose.Schema({
     required: [true, `Name required.`],
   },
   email: String,
-  password: {
-    type: String,
-    required: [true, 'Password is required.'],
-  },
+  password: String,
   todos: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Todo'
+    ref: 'Todo',
+    default: []
   }],
-  singleTodo: String,
+  singleTodo: {
+    type: String,
+    default: ''
+  },
+  singleCheck: {
+    type: Boolean,
+    default: false
+  }
 })
 
 let User = mongoose.model('User', userSchema)

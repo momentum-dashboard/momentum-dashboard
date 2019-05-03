@@ -10,6 +10,7 @@ route.post('/login/google', ControllerUser.loginGoogle)
 route.get('/users', ControllerUser.findAll)
 route.get('/users/:id', ControllerUser.findOne)
 route.put('/users/:id', ControllerUser.update)
+route.put('/todos/single', authenticate, ControllerUser.updateSingle)
 route.delete('/users/:id', ControllerUser.delete)
 
 route.post('/todos', authenticate, ControllerTodo.create)

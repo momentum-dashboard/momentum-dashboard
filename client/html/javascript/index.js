@@ -5,6 +5,7 @@ function startTime() {
    let s = today.getSeconds();
    m = checkTime(m);
    s = checkTime(s);
+   
    $('#clock').empty()
    $('#clock').append(`
      <p>${h} : ${m}</p>
@@ -24,9 +25,7 @@ function startTime() {
    else if (h >= 11 && h <= 13) greeting += `Good Day, ${user}`
    else if (h >= 14 && h <= 18) greeting += `Good Afternoon, ${user}`
    else if (h >= 16 && h <= 24) greeting += `Good Evening, ${user}`
-   $('#greeting').append(`
-     <h3>${greeting}</h3>
-   `)
+   $('#greeting').text(greeting)
  }
  
  function randomQuotes() {
@@ -35,15 +34,9 @@ function startTime() {
      method : 'GET'
    })
    .done(response => {
-     console.log(response)
-     $('#quote').append(`
-     <br>
-     <h7>"${response.quoteText}"</h7>
-     `)
-     $('#author').append(`
-     <br>
-       <h9>-${response.quoteAuthor}-</h9>
-     `)
+    //  console.log(response)
+     $('#quote').text(response.quoteText)
+     $('#author').text(response.quoteAuthor)
    })
  }
  
@@ -68,9 +61,9 @@ function showLocation(position) {
  }
  function errorHandler(err) {
     if(err.code == 1) {
-       alert("Error: Access is denied!");
+       console.log("Error: Access is denied!");
     } else if( err.code == 2) {
-       alert("Error: Position is unavailable!");
+       console.log("Error: Position is unavailable!");
     }
  }
  function getLocation(){
@@ -80,12 +73,11 @@ function showLocation(position) {
        navigator.geolocation.getCurrentPosition
        (showLocation, errorHandler, options);
     } else{
-       alert("Sorry, browser does not support geolocation!");
+       console.log("Sorry, browser does not support geolocation!");
     }
  }
 
  function getCityCountry(arr){
-    console.log(arr);     
      $.ajax({
         url:`https://maps.googleapis.com/maps/api/geocode/json?latlng=${arr[0]},${arr[1]}&sensor=true&key=AIzaSyBvszf7pWDZ7MA-umkI-U7EEAj8jTYTLDQ`,
         method: 'GET'
@@ -97,11 +89,11 @@ function showLocation(position) {
                 method: 'GET',
             })
             .done(function(response){
-                console.log(response);
-                console.log(response.location);
-                console.log(response.temperature)
-                console.log(response.summary);
-                console.log(response.icon);
+                // console.log(response);
+                // console.log(response.location);
+                // console.log(response.temperature)
+                // console.log(response.summary);
+                // console.log(response.icon);
                 $('#temperature').append(
                     `<h9>${response.temperature}</h9>`
                 )
@@ -128,6 +120,110 @@ function showLocation(position) {
        })
  }
 
+ function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      // console.log({profile})
+      var id_token = googleUser.getAuthResponse().id_token;
+      $.ajax({
+        url: 'http://localhost:3000/login/google',
+        type: 'post',
+        headers: {
+          id_token
+        }
+      })
+      .done(function(response){
+        console.log({response})
+        localStorage.setItem('token',response.access_token)
+        localStorage.setItem('id',response.id)
+        localStorage.setItem('name',response.name)
+        localStorage.setItem('email',response.email)
+        localStorage.setItem('quote',response.quote)
+        localStorage.setItem('check',response.check)
+        $('#username-container').hide()
+        // getLocation()
+
+        startTime()
+        greeting(response.name)
+        randomQuotes()
+        $("#main").fadeIn(1000).animate({queue: false},'slow')
+      })
+      .fail(function(err) {
+        console.log( err );
+      })
+    }
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      localStorage.removeItem('token')
+      $('#username-container').show()
+      $("#main").hide()
+      $('#greeting').empty()
+      $('#quote').empty()
+      $('#author').empty()
+      $('#quote').empty()
+    });
+  }
+
+  function checkLog() {
+    if(localStorage.token) {
+      // getLocation()
+      $('#greeting').empty()
+      $('#author').empty()
+      $('#quote').empty()
+      startTime()
+      greeting(localStorage.name)
+      randomQuotes()
+      $("#main").fadeIn(1000).animate({queue: false},'slow')
+      $('icon').show()
+      $('temperature').show()
+      $('location').show()
+      if(localStorage.quote) {
+        console.log('ada quote')
+        $('#todo-form').hide()
+        $('#submitted-todo').empty()
+        $('#submitted-todo').append(`
+          <h5>Today</h5>
+          <h4 id="name">${localStorage.quote}</h4>
+          <h4 id="name-strike"><s>${localStorage.quote}</s></h4>
+        `)
+        $('#submitted-todo').show()
+        console.log(localStorage.check)
+        if(localStorage.check) {
+          console.log('todo true')
+          $('#name').hide()
+          $('#name-strike').show()
+          $('#todo-option').fadeIn(1000).animate({queue: false},'slow')
+          $('#done').hide()
+          $('#undone').fadeIn()
+          $('#delete').hide()
+          $('#gj').fadeIn()
+          $('#add').fadeIn()
+        } else {
+          console.log('todo false')
+          $('#name').show()
+          $('#name-strike').hide()
+          $('#todo-option').fadeIn(1000).animate({queue: false},'slow')
+          $('#done').fadeIn()
+          $('#undone').hide()
+          $('#delete').fadeIn()
+          $('#gj').hide()
+          $('#add').hide()
+        }
+      } else {
+        console.log('ga ada quote')
+        $('#submitted-todo').hide()
+        $('#todo-form').show()
+      }
+    } else {
+      $('#username-container').show()
+      $("#main").hide()
+      $('#greeting').empty()
+      $('#quote').empty()
+      $('#author').empty()
+    }
+  }
+
 $(document).ready(function(){
    console.log(`readyxxxx`)
    getLocation()
@@ -145,6 +241,7 @@ $(document).ready(function(){
     
    // submit username
   $('#username-form').submit(hello => {
+    $('#google-button').hide()
     event.preventDefault()
     $('#username-form').hide().animate({queue: false},'slow')
     let username = $('#username').val()
@@ -172,14 +269,30 @@ $(document).ready(function(){
     event.preventDefault()
     let username = $('#username').val()
     let password = $('#password').val()
+    let email = $('#email').val()
     console.log(password)
     console.log(username)
-    $('#password-form').hide().animate({queue: false},'slow')
-     // entering main event
-    startTime()
-    greeting(username)
-    randomQuotes()
-    $("#main").fadeIn(1000).animate({queue: false},'slow')
+    $.ajax({
+      url: 'http://localhost:3000/register',
+      method: 'post',
+      data: {
+        name: username,
+        email,
+        password
+      }
+    })
+      .done(response => {
+        console.log({response})
+        $('#password-form').hide().animate({queue: false},'slow')
+        // entering main event
+        startTime()
+        greeting(username)
+        randomQuotes()
+        $("#main").fadeIn(1000).animate({queue: false},'slow')
+      })
+      .fail((jqXHR, status) => {
+        console.log(status)
+      })
   })
  
   $('#quote').hover(
@@ -196,14 +309,30 @@ $(document).ready(function(){
     event.preventDefault()
     $('#todo-form').hide().animate({queue: false},'slow')
     let todo = $('#todo-name').val()
-    $('#submitted-todo').append(`
-      <h5>Today</h5>
-      <h4 id="name">${todo}</h4>
-      <h4 id="name-strike"><s>${todo}</s></h4>
-    `)
-    $('#name-strike').hide()
-    $('#submitted-todo').fadeIn(1000).animate({queue: false},'slow')
-    $('#todo-option').fadeIn(1000).animate({queue: false},'slow')
+    $.ajax({
+      url: 'http://localhost:3000/todos/single',
+      method: 'put',
+      data: {
+        title: todo
+      },
+      headers: {
+        token: localStorage.token
+      }
+    })
+      .done(response => {
+        console.log({response})
+        $('#submitted-todo').append(`
+          <h5>Today</h5>
+          <h4 id="name">${response.singleTodo}</h4>
+          <h4 id="name-strike"><s>${response.singleTodo}</s></h4>
+        `)
+        $('#name-strike').hide()
+        $('#submitted-todo').fadeIn(1000).animate({queue: false},'slow')
+        $('#todo-option').fadeIn(1000).animate({queue: false},'slow')
+      })
+      .fail((jqXHR, status) => {
+        console.log({status})
+      })
   })
 
   $('#done').click(function(){
@@ -248,5 +377,5 @@ $(document).ready(function(){
     $('#gj').hide()
     $('#add').hide()
   })
-    
+    checkLog()
 })

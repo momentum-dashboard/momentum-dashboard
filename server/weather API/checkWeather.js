@@ -58,7 +58,7 @@ function CheckWeather(city, country, cb) {
       let latLong = `${temp.latitude},${temp.longitude}`
       ax.get(`/${latLong}${unit}`)
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           let obj = {
             location: `${city}, ${country}`,
             timezone: `${data.timezone}`,

@@ -73,7 +73,9 @@ class ControllerUser {
               access_token,
               name: user.name,
               email: user.email,
-              id: user._id
+              id: user._id,
+              quote: user.singleTodo,
+              check: user.singleCheck
              })
           }
         }
@@ -92,18 +94,15 @@ class ControllerUser {
         const payload = ticket.getPayload();
         User.findOne({ email: payload.email })
           .then(user => {
+            console.log({user})
             if (!user) {
               return User.create({
                 email: payload.email,
                 name: payload.name,
-                password: 'textPassword'
+                password: ''
               })
             } else {
-              const access_token = sign({
-                name: user.name,
-                email: user.email
-              })
-              res.status(200).json({ access_token })
+              return user
             }
           })
           .then(user => {
@@ -111,15 +110,30 @@ class ControllerUser {
               name: user.name,
               email: user.email
             })
-            res.status(200).json({ access_token })
+            res.status(200).json({
+              access_token,
+              name: user.name,
+              email: user.email,
+              id: user._id,
+              quote: user.singleTodo,
+              check: user.singleCheck
+            })
           })
           .catch(err => {
             res.status(500).json({ err: err.message })
           })
       })
       .catch(err => {
+        console.log({err})
         res.status(500).json({ err: err.message })
       })
+  }
+  static updateSingle(req, res) {
+    User.findByIdAndUpdate({_id: req.user._id}, {$set: {singleTodo: req.body.title}}, {new: true})
+      .then(user => {
+        res.status(200).json(user)
+      })
+      .catch(err=> {res.status(500).json(err)})
   }
 }
 

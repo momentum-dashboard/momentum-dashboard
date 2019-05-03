@@ -6,11 +6,10 @@ const { sign } = require('../helpers/jwt')
 class ControllerUser {
   static create(req, res) {
     let { name, email, password } = req.body
+    let hashed = (password != '') ? hash(password) : password
     let newUser = {
       name, email,
-      password: hash(password),
-      todos: [],
-      singleTodo: ''
+      password: hashed,
     }
     User.create(newUser)
       .then(data => {
@@ -58,9 +57,11 @@ class ControllerUser {
         if (!user) {
           res.status(401).json({ message: 'user tidak ada/ password salah' })
         } else {
+          // console.log({user: user.password, input: req.body.password})
+          // console.log(compare(req.body.password, user.password) || req.body.password == user.password)
           if (!compare(req.body.password, user.password)) {
             res.status(401).json({ message: 'user tidak ada/ password salah' })
-          } else {
+          } else if (compare(req.body.password, user.password) || req.body.password == user.password) {
             let obj = {
               name: user.name,
               email: user.email,

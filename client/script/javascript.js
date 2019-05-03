@@ -72,4 +72,4 @@ $(document).ready(function(){
       });
     }
 
-    // https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20190503T021939Z.993d69ae1c8750af.563ae811c649f59599e4f90e241b87419bb4288d&text=For POST requests, the maximum size of the text being passed is 10,000 characters.&lang=id
+    
